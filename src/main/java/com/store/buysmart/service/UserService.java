@@ -11,4 +11,5 @@ public interface UserService {
     Registration updateUser(Registration registration);
     void deleteUserById(int id);
     Registration getUserById(int id);
+    void sendMail(Registration registration);
 }

@@ -18,7 +18,9 @@ public class RegistrationController {
 
     @PostMapping("/registration")
     public ResponseEntity<Registration> save(@RequestBody Registration registration){
-        return ResponseEntity.ok().body(userService.createUser(registration));
+        Registration registration1 = userService.createUser(registration);
+        userService.sendMail(registration);
+        return ResponseEntity.ok().body(registration1);
     }
 
     @GetMapping("/user")

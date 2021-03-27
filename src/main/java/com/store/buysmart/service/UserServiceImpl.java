@@ -3,6 +3,8 @@ package com.store.buysmart.service;
 import com.store.buysmart.model.Registration;
 import com.store.buysmart.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.mail.SimpleMailMessage;
+import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -13,6 +15,9 @@ public class UserServiceImpl implements UserService {
 
     @Autowired
     UserRepository userRepository;
+
+    @Autowired
+    JavaMailSender javaMailSender;
 
 
     @Override
@@ -51,5 +56,14 @@ public class UserServiceImpl implements UserService {
     public Registration getUserById(int id) {
         Optional<Registration> registration = userRepository.findById(id);
         return registration.get();
+    }
+
+    public void sendMail(Registration registration) {
+
+        SimpleMailMessage mailMessage = new SimpleMailMessage();
+        mailMessage.setTo(registration.getName());
+        mailMessage.setSubject("Welcome to Online Store Application");
+        mailMessage.setText("Hey There!");
+        javaMailSender.send(mailMessage);
     }
 }
