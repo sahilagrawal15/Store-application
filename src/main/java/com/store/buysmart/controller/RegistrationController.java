@@ -3,10 +3,12 @@ package com.store.buysmart.controller;
 import com.store.buysmart.model.Registration;
 import com.store.buysmart.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+import java.util.Optional;
 
 @RestController
 public class RegistrationController {
@@ -15,9 +17,37 @@ public class RegistrationController {
     UserService userService;
 
     @PostMapping("/registration")
-    public void save(@RequestBody Registration registration){
-        userService.save(registration);
+    public ResponseEntity<Registration> save(@RequestBody Registration registration){
+        Registration registration1 = userService.createUser(registration);
+        userService.sendMail(registration);
+        return ResponseEntity.ok().body(registration1);
     }
+
+    @GetMapping("/user")
+    public ResponseEntity<List<Registration>> getUsers(){
+        return ResponseEntity.ok().body(userService.getAllUser());
+    }
+
+    @GetMapping("user/{id}")
+    public ResponseEntity<Registration> getUserById(@PathVariable(value = "id") int id){
+        return ResponseEntity.ok().body(userService.getUserById(id));
+    }
+
+    @DeleteMapping("user/{id}")
+    public HttpStatus deleteUserById(@PathVariable(value = "id") int id){
+        userService.deleteUserById(id);
+        return HttpStatus.OK;
+    }
+
+    @PutMapping("user/{id}")
+    public ResponseEntity<Registration> updateUser(@PathVariable(value = "id") int id,
+                                                   @RequestBody Registration registration){
+        registration.setRollNo(id);
+        return ResponseEntity.ok().body(userService.updateUser(registration));
+    }
+
+
+
 
 
 }
