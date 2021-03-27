@@ -1,3 +1,4 @@
+/*
 package com.store.buysmart.config;
 
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -14,3 +15,4 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     }
 
 }
+*/

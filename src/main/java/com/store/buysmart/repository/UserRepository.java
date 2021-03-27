@@ -11,11 +11,5 @@ import java.util.Optional;
 
 @Repository
 public interface UserRepository extends JpaRepository<Registration,Integer> {
-    Registration save(Registration registration);
-    List<Registration> findAll();
-/*
-    void deleteById(int id);
-*/
-    Optional<Registration> findById(int id);
 
 }

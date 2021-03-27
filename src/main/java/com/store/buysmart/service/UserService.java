@@ -6,10 +6,9 @@ import java.util.List;
 import java.util.Optional;
 
 public interface UserService {
-    void save(Registration registration);
-    List<Registration> findAll();
-/*
-    void deleteById(int id);
-*/
-    Optional<Registration> findById(int id);
+    Registration createUser(Registration registration);
+    List<Registration> getAllUser();
+    Registration updateUser(Registration registration);
+    void deleteUserById(int id);
+    Registration getUserById(int id);
 }

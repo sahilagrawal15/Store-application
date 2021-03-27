@@ -3,6 +3,7 @@ package com.store.buysmart.controller;
 import com.store.buysmart.model.Registration;
 import com.store.buysmart.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -16,23 +17,34 @@ public class RegistrationController {
     UserService userService;
 
     @PostMapping("/registration")
-    public void save(@RequestBody Registration registration){
-        userService.save(registration);
+    public ResponseEntity<Registration> save(@RequestBody Registration registration){
+        return ResponseEntity.ok().body(userService.createUser(registration));
     }
 
     @GetMapping("/user")
-    public List<Registration> getUsers(){
-        return userService.findAll();
+    public ResponseEntity<List<Registration>> getUsers(){
+        return ResponseEntity.ok().body(userService.getAllUser());
     }
+
     @GetMapping("user/{id}")
-    public ResponseEntity<Optional<Registration>> getUserById(@PathVariable(value = "id") int id){
-        Optional<Registration> registration = userService.findById(id);
-        return ResponseEntity.ok().body(registration);
+    public ResponseEntity<Registration> getUserById(@PathVariable(value = "id") int id){
+        return ResponseEntity.ok().body(userService.getUserById(id));
     }
-    /*@DeleteMapping("user/{id}")
-    public void deleteUserById(@PathVariable(value = "id") int id){
-        userService.deleteById(id);
-    }*/
+
+    @DeleteMapping("user/{id}")
+    public HttpStatus deleteUserById(@PathVariable(value = "id") int id){
+        userService.deleteUserById(id);
+        return HttpStatus.OK;
+    }
+
+    @PutMapping("user/{id}")
+    public ResponseEntity<Registration> updateUser(@PathVariable(value = "id") int id,
+                                                   @RequestBody Registration registration){
+        registration.setRollNo(id);
+        return ResponseEntity.ok().body(userService.updateUser(registration));
+    }
+
+
 
 
 
