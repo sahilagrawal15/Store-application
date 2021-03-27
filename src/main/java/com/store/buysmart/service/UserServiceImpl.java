@@ -59,11 +59,14 @@ public class UserServiceImpl implements UserService {
     }
 
     public void sendMail(Registration registration) {
-
         SimpleMailMessage mailMessage = new SimpleMailMessage();
         mailMessage.setTo(registration.getName());
         mailMessage.setSubject("Welcome to Online Store Application");
-        mailMessage.setText("Hey There!");
+        mailMessage.setText("Hey There!\n" +
+        "We are pleased to have you, we are currently under development " +
+                "and will bring to you all kinds if goods and accessories at your doorstep at earlier.\n\n" +
+        "Warm Regards\n" +
+        "Online Store Team");
         javaMailSender.send(mailMessage);
     }
 }
